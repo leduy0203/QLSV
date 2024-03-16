@@ -9,6 +9,7 @@ public class Main {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 			new QLSV_View();
+			System.out.println("Hello world");
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
