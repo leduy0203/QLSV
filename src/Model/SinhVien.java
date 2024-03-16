@@ -94,7 +94,7 @@ public class SinhVien {
 
 	@Override
 	public String toString() {
-		return "ThiSinh [maThiSinh=" + maThiSinh + ", tenThiSinh=" + tenThiSinh + ", queQuan=" + queQuan + ", ngaySinh="
+		return "ThiSinh [maThiSinh=" + maThiSinh + ", tenThiSinh=" + tenThiSinh + ", queQuan=" + queQuan.getTenTinh() + ", ngaySinh="
 				+ ngaySinh + ", gioiTinh=" + gioiTinh + ", diemMon1=" + diemMon1 + ", diemMon2=" + diemMon2
 				+ ", diemMon3=" + diemMon3 + "]";
 	}

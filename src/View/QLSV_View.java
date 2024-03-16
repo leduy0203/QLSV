@@ -51,9 +51,9 @@ public class QLSV_View extends JFrame {
 	public JButton button_CapNhat;
 	public JButton button_Luu;
 	public JButton button_Huy;
-	private JComboBox comboBox_QueQuan;
-	private JComboBox comboBox_QueQuan_1;
-	private ButtonGroup buttonGroup;
+	public JComboBox comboBox_QueQuan;
+	public JComboBox comboBox_QueQuan_1;
+	public ButtonGroup buttonGroup;
 
 	/**
 	 * Launch the application.
@@ -346,15 +346,17 @@ public class QLSV_View extends JFrame {
 		contentPane.add(comboBox_QueQuan_1);
 
 		buttonGroup = new ButtonGroup();
-		radioButton_Nam = new JRadioButton("Nam");
+		radioButton_Nam = new JRadioButton("Nam");	
 		radioButton_Nam.setBackground(new Color(128, 255, 255));
 		radioButton_Nam.setForeground(new Color(0, 0, 0));
+		radioButton_Nam.setActionCommand("Nam");
 		radioButton_Nam.setBounds(337, 454, 60, 23);
 		radioButton_Nam.addActionListener(qlsv_Control);
 		buttonGroup.add(radioButton_Nam);
 
 		radioButton_Nu = new JRadioButton("Nữ");
 		radioButton_Nu.setForeground(Color.BLACK);
+		radioButton_Nu.setActionCommand("Nam");
 		radioButton_Nu.setBackground(new Color(128, 255, 255));
 		radioButton_Nu.setBounds(337, 480, 47, 23);
 		radioButton_Nu.addActionListener(qlsv_Control);
@@ -376,5 +378,15 @@ public class QLSV_View extends JFrame {
 		buttonGroup.clearSelection();
 		this.comboBox_QueQuan_1.setSelectedItem(null);
 		this.textField_NgaySinh.setText(null);
+	}
+	public Tinh getTinhByID(int id) {
+		Tinh tinhString = null;
+		ArrayList<Tinh> arr = Tinh.ds();
+		for (Tinh x : arr) {
+			if(x.getMaTinh() == id) {
+				tinhString = x;
+			}
+		}
+		return tinhString;
 	}
 }
