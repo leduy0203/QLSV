@@ -38,7 +38,7 @@ public class Tinh {
 	}
 
 	public static ArrayList<Tinh> ds() {
-		String[] arr = {null,"An Giang" ,"Bến Tre", "Bình Dương", "Bình Định", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng",
+		String[] arr = {"An Giang" ,"Bến Tre", "Bình Dương", "Bình Định", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng",
 				"Cần Thơ", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai",
 				"Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình",
 				"Thành phố Hồ Chí Minh", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lạng Sơn",
@@ -58,24 +58,14 @@ public class Tinh {
 	public static Tinh getTinhById(int index) {
 		return Tinh.ds().get(index);
 	}
-
-	public static Tinh getTinhByTen(String tenTinh) {
-		ArrayList<Tinh> listTinh = Tinh.ds();
-		for (Tinh tinh : listTinh) {
-			if(tinh.tenTinh.equals(tenTinh))
-				return tinh;
+	public static Tinh getTinhByTen(String tenString) {
+		ArrayList<Tinh> arrayList = Tinh.ds();
+		Tinh tinhs = null;
+		for (Tinh tinh : arrayList) {
+			if(tinh.getTenTinh().equalsIgnoreCase(tenString)) {
+				tinhs = tinh;
+			}
 		}
-		return null;
-	}
-	
-	public static void main(String[] args) {
-		Tinh tinh = new Tinh();
-		tinh.setTenTinh("Bình Dương");
-		ArrayList<Tinh> listTinh = Tinh.ds();
-		for (Tinh tinh2 : Tinh.ds()) {
-		    if(tinh2.getTenTinh().equals(tinh.getTenTinh())) {
-		        System.out.println(tinh2);
-		    }
-		}
+		return tinhs;
 	}
 }

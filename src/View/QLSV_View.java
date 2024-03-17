@@ -358,7 +358,7 @@ public class QLSV_View extends JFrame {
 
 		radioButton_Nu = new JRadioButton("Nữ");
 		radioButton_Nu.setForeground(Color.BLACK);
-		radioButton_Nu.setActionCommand("Nam");
+		radioButton_Nu.setActionCommand("Nữ");
 		radioButton_Nu.setBackground(new Color(128, 255, 255));
 		radioButton_Nu.setBounds(337, 480, 47, 23);
 		radioButton_Nu.addActionListener(qlsv_Control);
@@ -407,25 +407,36 @@ public class QLSV_View extends JFrame {
 		int x = table.getSelectedRow();
 		int maThiSinh = Integer.valueOf(defaultTableModel.getValueAt(x, 0) + "");
 		String tenThiSinh = defaultTableModel.getValueAt(x, 1) + "";
-		String ten = defaultTableModel.getValueAt(x, 2) + "";
-		System.out.println(ten);
-		
-		Tinh tinh = Tinh.getTinhByTen(ten);
-		System.out.println(tinh.toString());
+
+		Tinh tinh = Tinh.getTinhByTen(defaultTableModel.getValueAt(x, 2) + "");
 		// Xử lý ngày sinh
 		SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Date ngaySinh = inputFormat.parse(defaultTableModel.getValueAt(x, 3) + "");
+		String ngaySinhString = inputFormat.format(ngaySinh);
 
 		String gioiTinhs = defaultTableModel.getValueAt(x, 4) + "";
+		System.out.println(gioiTinhs);
 		boolean gioiTinh;
-		gioiTinh = gioiTinhs.equals("Nam");
 
 		// Xử lý điểm môn học
 		double diemMon1 = Double.valueOf(defaultTableModel.getValueAt(x, 5) + "");
 		double diemMon2 = Double.valueOf(defaultTableModel.getValueAt(x, 6) + "");
 		double diemMon3 = Double.valueOf(defaultTableModel.getValueAt(x, 7) + "");
-		SinhVien sinhVien = new SinhVien(maThiSinh, tenThiSinh, tinh, ngaySinh, gioiTinh, diemMon1, diemMon2, diemMon3);
-		System.out.println(sinhVien.toString());
+
+		// Cập nhật lại thông tin vào bảng
+		this.textField_Mssv.setText(maThiSinh + "");
+		this.textField_Ten.setText(tenThiSinh);
+		this.comboBox_QueQuan_1.setSelectedItem(tinh.getTenTinh());
+		this.textField_NgaySinh.setText(ngaySinhString + "");
+		gioiTinh = gioiTinhs.equals("false");
+		if (gioiTinh) {
+			radioButton_Nu.setSelected(true);
+		} else {
+			radioButton_Nam.setSelected(true);
+		}
+		this.textField_DiemMon1.setText(diemMon1 + "");
+		this.textField_DiemMon2.setText(diemMon2 + "");
+		this.textField_DiemMon3.setText(diemMon3 + "");
 	}
 
 }
