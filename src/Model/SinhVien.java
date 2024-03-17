@@ -1,5 +1,6 @@
 package Model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class SinhVien {
@@ -92,11 +93,20 @@ public class SinhVien {
 		this.diemMon3 = diemMon3;
 	}
 
-	@Override
-	public String toString() {
-		return "ThiSinh [maThiSinh=" + maThiSinh + ", tenThiSinh=" + tenThiSinh + ", queQuan=" + queQuan.getTenTinh() + ", ngaySinh="
-				+ ngaySinh + ", gioiTinh=" + gioiTinh + ", diemMon1=" + diemMon1 + ", diemMon2=" + diemMon2
-				+ ", diemMon3=" + diemMon3 + "]";
+	public String format() {
+		SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+	    String formattedNgaySinh = outputFormat.format(this.getNgaySinh());
+	    return formattedNgaySinh;
 	}
 
+	@Override
+	public String toString() {
+		return "SinhVien [maThiSinh=" + maThiSinh + ", tenThiSinh=" + tenThiSinh + ", queQuan=" + queQuan
+				+ ", ngaySinh=" + ngaySinh + ", gioiTinh=" + gioiTinh + ", diemMon1=" + diemMon1 + ", diemMon2="
+				+ diemMon2 + ", diemMon3=" + diemMon3 + "]";
+	}
+	
+
+
+	
 }

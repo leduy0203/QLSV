@@ -55,4 +55,27 @@ public class Tinh {
 		}
 		return tinhs;
 	}
+	public static Tinh getTinhById(int index) {
+		return Tinh.ds().get(index);
+	}
+
+	public static Tinh getTinhByTen(String tenTinh) {
+		ArrayList<Tinh> listTinh = Tinh.ds();
+		for (Tinh tinh : listTinh) {
+			if(tinh.tenTinh.equals(tenTinh))
+				return tinh;
+		}
+		return null;
+	}
+	
+	public static void main(String[] args) {
+		Tinh tinh = new Tinh();
+		tinh.setTenTinh("Bình Dương");
+		ArrayList<Tinh> listTinh = Tinh.ds();
+		for (Tinh tinh2 : Tinh.ds()) {
+		    if(tinh2.getTenTinh().equals(tinh.getTenTinh())) {
+		        System.out.println(tinh2);
+		    }
+		}
+	}
 }

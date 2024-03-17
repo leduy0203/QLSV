@@ -4,10 +4,19 @@ import java.util.ArrayList;
 
 public class DanhSachSinhVien {
 	private ArrayList<SinhVien> DanhSach;
+	private String luaChon;
 
 	public DanhSachSinhVien() {
 		super();
 		DanhSach = new ArrayList<SinhVien>();
+	}
+
+	public String getLuaChon() {
+		return luaChon;
+	}
+
+	public void setLuaChon(String luaChon) {
+		this.luaChon = luaChon;
 	}
 
 	public DanhSachSinhVien(ArrayList<SinhVien> danhSach) {
@@ -22,20 +31,18 @@ public class DanhSachSinhVien {
 	public void setDanhSach(ArrayList<SinhVien> danhSach) {
 		DanhSach = danhSach;
 	}
-	
+
 	public void insert(SinhVien sinhVien) {
 		this.DanhSach.add(sinhVien);
 	}
-	
+
 	public void remove(SinhVien sinhVien) {
 		this.DanhSach.remove(sinhVien);
 	}
-	
+
 	public void update(SinhVien sinhVien) {
 		this.DanhSach.remove(sinhVien);
 		this.DanhSach.add(sinhVien);
 	}
-	
-	
-	
+
 }
