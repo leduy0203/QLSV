@@ -53,7 +53,7 @@ public class QLSV_Control implements Action {
 				SinhVien sinhVien = new SinhVien(maThiSinh, tenThiSinh, tinh, ngaySinh, gioiTinh, diemMon1, diemMon2,
 						diemMon3);
 
-				this.qlsv_View.themSinhVien(sinhVien);
+				this.qlsv_View.themHoacCapNhapSinhVien(sinhVien);
 //				if (this.qlsv_View.getDanhSachSinhVien().getLuaChon().equals("Cập nhật")) {
 //					this.qlsv_View.capNhapSv(sinhVien);
 //				}

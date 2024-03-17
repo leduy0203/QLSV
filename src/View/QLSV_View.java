@@ -10,12 +10,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.awt.Color;
 
 import javax.swing.JLabel;
@@ -390,16 +392,32 @@ public class QLSV_View extends JFrame {
 		this.textField_NgaySinh.setText(null);
 	}
 
-	public void themSinhVien(SinhVien sinhVien) {
-		this.danhSachSinhVien.insert(sinhVien);
-		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
-		defaultTableModel.addRow(new Object[] { sinhVien.getMaThiSinh() + "", sinhVien.getTenThiSinh() + "",
-				sinhVien.getQueQuan().getTenTinh() + "", sinhVien.format() + "", sinhVien.isGioiTinh() + "",
-				sinhVien.getDiemMon1() + "", +sinhVien.getDiemMon2() + "", sinhVien.getDiemMon3() + "" });
-	}
-
-	public void capNhapSv(SinhVien sinhVien) {
-		this.danhSachSinhVien.update(sinhVien);
+	public void themHoacCapNhapSinhVien(SinhVien sinhVien) {
+		if (this.danhSachSinhVien.kiemTraTonTai(sinhVien)) {
+			this.danhSachSinhVien.insert(sinhVien);
+			DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+			defaultTableModel.addRow(new Object[] { sinhVien.getMaThiSinh() + "", sinhVien.getTenThiSinh() + "",
+					sinhVien.getQueQuan().getTenTinh() + "", sinhVien.format() + "",
+					sinhVien.isGioiTinh() ? "Nam" : "Nữ" + "", sinhVien.getDiemMon1() + "",
+					+sinhVien.getDiemMon2() + "", sinhVien.getDiemMon3() + "" });
+		} else {
+			this.danhSachSinhVien.update(sinhVien);
+			int length_Row = table.getRowCount();
+			int length_Column = table.getColumnCount();
+			for (int i = 0; i < length_Row; i++) {
+				String id = table.getValueAt(i, 0) + "";
+				if (id.equals(sinhVien.getMaThiSinh() + "")) {
+					table.setValueAt(sinhVien.getMaThiSinh(), i, 0);
+					table.setValueAt(sinhVien.getTenThiSinh(), i, 1);
+					table.setValueAt(sinhVien.getQueQuan().getTenTinh(), i, 2);
+					table.setValueAt(sinhVien.format(), i, 3);
+					table.setValueAt(sinhVien.isGioiTinh() ? "Nam" : "Nữ", i, 4);
+					table.setValueAt(sinhVien.getDiemMon1(), i, 5);
+					table.setValueAt(sinhVien.getDiemMon2(), i, 6);
+					table.setValueAt(sinhVien.getDiemMon3(), i, 7);
+				}
+			}
+		}
 	}
 
 	public void hienThiThongTinDaChon() throws ParseException {

@@ -45,4 +45,13 @@ public class DanhSachSinhVien {
 		this.DanhSach.add(sinhVien);
 	}
 
+	public boolean kiemTraTonTai(SinhVien sinhVien) {
+		for (SinhVien sinhVien2 : DanhSach) {
+			if (sinhVien2.getMaThiSinh() == sinhVien.getMaThiSinh()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }
