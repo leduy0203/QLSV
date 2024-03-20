@@ -18,6 +18,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
 import java.awt.Color;
 
 import javax.swing.JLabel;
@@ -143,12 +145,12 @@ public class QLSV_View extends JFrame {
 		JLabel Label_MaSinhVien = new JLabel("Mã sinh viên");
 		Label_MaSinhVien.setVerticalAlignment(SwingConstants.TOP);
 		Label_MaSinhVien.setFont(new Font("Tahoma", Font.BOLD, 15));
-		Label_MaSinhVien.setBounds(412, 37, 107, 27);
+		Label_MaSinhVien.setBounds(372, 37, 107, 27);
 		contentPane.add(Label_MaSinhVien);
 
 		textField_MaSinhVien = new JTextField();
 		textField_MaSinhVien.setBackground(new Color(228, 228, 228));
-		textField_MaSinhVien.setBounds(529, 32, 200, 32);
+		textField_MaSinhVien.setBounds(489, 32, 164, 32);
 		contentPane.add(textField_MaSinhVien);
 		textField_MaSinhVien.setColumns(10);
 
@@ -156,7 +158,7 @@ public class QLSV_View extends JFrame {
 		button_Tim.setBackground(new Color(255, 128, 64));
 		button_Tim.setForeground(new Color(0, 0, 0));
 		button_Tim.setFont(new Font("Tahoma", Font.BOLD, 15));
-		button_Tim.setBounds(803, 21, 89, 54);
+		button_Tim.setBounds(714, 19, 89, 54);
 		button_Tim.addActionListener(qlsv_Control);
 		contentPane.add(button_Tim);
 
@@ -167,7 +169,7 @@ public class QLSV_View extends JFrame {
 		}
 		comboBox_QueQuan.setBackground(new Color(232, 232, 232));
 		comboBox_QueQuan.setForeground(new Color(0, 0, 0));
-		comboBox_QueQuan.setBounds(120, 32, 213, 32);
+		comboBox_QueQuan.setBounds(120, 32, 170, 32);
 		contentPane.add(comboBox_QueQuan);
 
 		JSeparator separator_2 = new JSeparator();
@@ -369,6 +371,13 @@ public class QLSV_View extends JFrame {
 
 		contentPane.add(radioButton_Nam);
 		contentPane.add(radioButton_Nu);
+
+		JButton button_HuyTim = new JButton("Huỷ tìm");
+		button_HuyTim.setBackground(new Color(255, 128, 64));
+		button_HuyTim.setFont(new Font("Tahoma", Font.BOLD, 15));
+		button_HuyTim.setBounds(817, 19, 103, 54);
+		button_HuyTim.addActionListener(qlsv_Control);
+		contentPane.add(button_HuyTim);
 		this.setVisible(true);
 	}
 
@@ -508,4 +517,45 @@ public class QLSV_View extends JFrame {
 
 	}
 
+	public void thucHienTim() {
+		// TODO Auto-generated method stub
+		int queQuan = this.comboBox_QueQuan.getSelectedIndex();
+		String maThiSinhTimKiem = this.textField_MaSinhVien.getText();
+		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+		Set<Integer> idCanXoa = new TreeSet<Integer>();
+		int x = table.getSelectedRow();
+		if (queQuan >= 0) {
+			Tinh tinh = Tinh.getTinhById(queQuan);
+			for (int i = 0; i < x; i++) {
+				String tenTinh = table.getValueAt(i, 2) + "";
+				String id = table.getValueAt(i, 0) + "";
+				if (!tenTinh.equals(tinh.getTenTinh())) {
+					idCanXoa.add(Integer.valueOf(id));
+				}
+			}
+		}
+		if (maThiSinhTimKiem.length() > 0) {
+			for (int i = 0; i < x; i++) {
+				String maSinhVien_Table = table.getValueAt(i, 0) + "";
+				if (!maSinhVien_Table.equals(maThiSinhTimKiem)) {
+					idCanXoa.add(Integer.valueOf(maSinhVien_Table));
+				}
+			}
+		}
+		for (Integer id : idCanXoa) {
+			x = table.getRowCount();
+			for (int i = 0; i < x; i++) {
+				String idTable = table.getValueAt(i, 0)+"";
+				if(idTable.equals(id)) {
+					table.remove(Integer.valueOf(i));
+				}
+			}
+		}
+
+	}
+
+	public void thucHienHuyTim() {
+		// TODO Auto-generated method stub
+
+	}
 }
