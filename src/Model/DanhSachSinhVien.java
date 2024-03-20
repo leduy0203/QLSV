@@ -36,8 +36,8 @@ public class DanhSachSinhVien {
 		this.DanhSach.add(sinhVien);
 	}
 
-	public void remove(SinhVien sinhVien) {
-		this.DanhSach.remove(sinhVien);
+	public void remove(int index) {
+		DanhSach.remove(index);
 	}
 
 	public void update(SinhVien sinhVien) {

@@ -29,35 +29,7 @@ public class QLSV_Control implements Action {
 			this.qlsv_View.getDanhSachSinhVien().setLuaChon("Thêm");
 		} else if (src.equals("Lưu")) {
 			try {
-				int maThiSinh = Integer.valueOf(qlsv_View.textField_Mssv.getText());
-				String tenThiSinh = qlsv_View.textField_Ten.getText();
-				int index = qlsv_View.comboBox_QueQuan_1.getSelectedIndex();
-				Tinh tinh = Tinh.getTinhById(index);
-
-				// Xử lý ngày sinh
-				SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
-				Date ngaySinh = inputFormat.parse(qlsv_View.textField_NgaySinh.getText());
-				SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-				String formattedNgaySinh = outputFormat.format(ngaySinh);
-
-				boolean gioiTinh;
-				String chonString = this.qlsv_View.buttonGroup.getSelection().getActionCommand();
-				gioiTinh = chonString.equals("Nam");
-
-				// Xử lý điểm môn học
-				double diemMon1 = Double.valueOf(this.qlsv_View.textField_DiemMon1.getText());
-				double diemMon2 = Double.valueOf(this.qlsv_View.textField_DiemMon2.getText());
-				double diemMon3 = Double.valueOf(this.qlsv_View.textField_DiemMon3.getText());
-
-				// Sinh viên
-				SinhVien sinhVien = new SinhVien(maThiSinh, tenThiSinh, tinh, ngaySinh, gioiTinh, diemMon1, diemMon2,
-						diemMon3);
-
-				this.qlsv_View.themHoacCapNhapSinhVien(sinhVien);
-//				if (this.qlsv_View.getDanhSachSinhVien().getLuaChon().equals("Cập nhật")) {
-//					this.qlsv_View.capNhapSv(sinhVien);
-//				}
-				System.out.println(sinhVien.toString());
+				this.qlsv_View.thucHienThem();
 			} catch (Exception e2) {
 				e2.printStackTrace();
 			}
@@ -69,6 +41,8 @@ public class QLSV_Control implements Action {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
+		} else if (src.equals("Xoá")) {
+			this.qlsv_View.thucHienXoa();
 		}
 
 	}
@@ -77,7 +51,7 @@ public class QLSV_Control implements Action {
 	public Object getValue(String key) {
 		// TODO Auto-generated method stub
 		return null;
-		//s
+		// s
 	}
 
 	@Override

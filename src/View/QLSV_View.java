@@ -28,6 +28,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import Controller.QLSV_Control;
 import Model.DanhSachSinhVien;
@@ -455,6 +456,56 @@ public class QLSV_View extends JFrame {
 		this.textField_DiemMon1.setText(diemMon1 + "");
 		this.textField_DiemMon2.setText(diemMon2 + "");
 		this.textField_DiemMon3.setText(diemMon3 + "");
+	}
+
+	public void thucHienXoa() {
+		// TODO Auto-generated method stub
+		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+		int x = table.getSelectedRow();
+		System.out.println(x);
+		this.danhSachSinhVien.remove(x);
+		int luaChon = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xoá không");
+//		System.out.println(xString);
+		if (luaChon == 0) {
+			defaultTableModel.removeRow(x);
+		}
+//		System.out.println("-----------------------");
+//		for (SinhVien sv : this.danhSachSinhVien.getDanhSach()) {
+//			System.out.println(this.danhSachSinhVien.getDanhSach().indexOf(sv)+"+"+sv.toString());
+//		}
+	}
+
+	public void thucHienThem() throws ParseException {
+		// TODO Auto-generated method stub
+		int maThiSinh = Integer.valueOf(this.textField_Mssv.getText());
+		String tenThiSinh = this.textField_Ten.getText();
+		int index = this.comboBox_QueQuan_1.getSelectedIndex();
+		Tinh tinh = Tinh.getTinhById(index);
+
+		// Xử lý ngày sinh
+		SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+		Date ngaySinh = inputFormat.parse(this.textField_NgaySinh.getText());
+		SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+		String formattedNgaySinh = outputFormat.format(ngaySinh);
+
+		boolean gioiTinh;
+		String chonString = this.buttonGroup.getSelection().getActionCommand();
+		gioiTinh = chonString.equals("Nam");
+
+		// Xử lý điểm môn học
+		double diemMon1 = Double.valueOf(this.textField_DiemMon1.getText());
+		double diemMon2 = Double.valueOf(this.textField_DiemMon2.getText());
+		double diemMon3 = Double.valueOf(this.textField_DiemMon3.getText());
+
+		// Sinh viên
+		SinhVien sinhVien = new SinhVien(maThiSinh, tenThiSinh, tinh, ngaySinh, gioiTinh, diemMon1, diemMon2, diemMon3);
+
+		this.themHoacCapNhapSinhVien(sinhVien);
+//		if (this.qlsv_View.getDanhSachSinhVien().getLuaChon().equals("Cập nhật")) {
+//			this.qlsv_View.capNhapSv(sinhVien);
+//		}
+		System.out.println(sinhVien.toString());
+
 	}
 
 }
