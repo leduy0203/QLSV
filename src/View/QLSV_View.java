@@ -16,8 +16,11 @@ import java.awt.Font;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.awt.Color;
@@ -64,6 +67,7 @@ public class QLSV_View extends JFrame {
 	public JComboBox comboBox_QueQuan_1;
 	public ButtonGroup buttonGroup;
 	private DanhSachSinhVien danhSachSinhVien;
+	private Set<Integer> idCanXoa;
 
 	/**
 	 * Launch the application.
@@ -518,41 +522,35 @@ public class QLSV_View extends JFrame {
 	}
 
 	public void thucHienTim() {
-		// TODO Auto-generated method stub
-		int queQuan = this.comboBox_QueQuan.getSelectedIndex();
-		String maThiSinhTimKiem = this.textField_MaSinhVien.getText();
-		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
-		Set<Integer> idCanXoa = new TreeSet<Integer>();
-		int x = table.getSelectedRow();
-		if (queQuan >= 0) {
-			Tinh tinh = Tinh.getTinhById(queQuan);
-			for (int i = 0; i < x; i++) {
-				String tenTinh = table.getValueAt(i, 2) + "";
-				String id = table.getValueAt(i, 0) + "";
-				if (!tenTinh.equals(tinh.getTenTinh())) {
-					idCanXoa.add(Integer.valueOf(id));
-				}
-			}
-		}
-		if (maThiSinhTimKiem.length() > 0) {
-			for (int i = 0; i < x; i++) {
-				String maSinhVien_Table = table.getValueAt(i, 0) + "";
-				if (!maSinhVien_Table.equals(maThiSinhTimKiem)) {
-					idCanXoa.add(Integer.valueOf(maSinhVien_Table));
-				}
-			}
-		}
-		for (Integer id : idCanXoa) {
-			x = table.getRowCount();
-			for (int i = 0; i < x; i++) {
-				String idTable = table.getValueAt(i, 0)+"";
-				if(idTable.equals(id)) {
-					table.remove(Integer.valueOf(i));
-				}
-			}
-		}
+	    int queQuan = this.comboBox_QueQuan.getSelectedIndex();
+	    String maThiSinhTimKiem = this.textField_MaSinhVien.getText();
+	    DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+	    Set<Integer> danhSachCanXoa = new HashSet<Integer>();
+	    int rowCount = table.getRowCount();
 
+	    // Xác định các dòng cần xóa và thêm chúng vào danhSachCanXoa
+	    for (int i = 0; i < rowCount; i++) {
+	        String tenTinh = table.getValueAt(i, 2) + "";
+	        String id = table.getValueAt(i, 0) + "";
+
+	        if (queQuan >= 0 && !tenTinh.equals(Tinh.getTinhById(queQuan).getTenTinh())) {
+	            danhSachCanXoa.add(i);
+	        }
+
+	        if (maThiSinhTimKiem.length() > 0 && !id.equals(maThiSinhTimKiem)) {
+	            danhSachCanXoa.add(i);
+	        }
+	    }
+	    
+	    // Loại bỏ các dòng cần xóa từ bảng (theo thứ tự giảm dần của chỉ mục)
+	    List<Integer> indexList = new ArrayList<>(danhSachCanXoa);
+	    Collections.sort(indexList, Collections.reverseOrder());
+	    for (Integer index : indexList) {
+	    	System.out.println(index);
+	    }
 	}
+
+
 
 	public void thucHienHuyTim() {
 		// TODO Auto-generated method stub
