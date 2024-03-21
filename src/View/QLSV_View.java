@@ -406,14 +406,18 @@ public class QLSV_View extends JFrame {
 		this.textField_NgaySinh.setText(null);
 	}
 
+	public void themSinhVienVaoTable(SinhVien sinhVien) {
+		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+		defaultTableModel.addRow(new Object[] { sinhVien.getMaThiSinh() + "", sinhVien.getTenThiSinh() + "",
+				sinhVien.getQueQuan().getTenTinh() + "", sinhVien.format() + "",
+				sinhVien.isGioiTinh() ? "Nam" : "Nữ" + "", sinhVien.getDiemMon1() + "", +sinhVien.getDiemMon2() + "",
+				sinhVien.getDiemMon3() + "" });
+	}
+
 	public void themHoacCapNhapSinhVien(SinhVien sinhVien) {
 		if (this.danhSachSinhVien.kiemTraTonTai(sinhVien)) {
 			this.danhSachSinhVien.insert(sinhVien);
-			DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
-			defaultTableModel.addRow(new Object[] { sinhVien.getMaThiSinh() + "", sinhVien.getTenThiSinh() + "",
-					sinhVien.getQueQuan().getTenTinh() + "", sinhVien.format() + "",
-					sinhVien.isGioiTinh() ? "Nam" : "Nữ" + "", sinhVien.getDiemMon1() + "",
-					+sinhVien.getDiemMon2() + "", sinhVien.getDiemMon3() + "" });
+			this.themSinhVienVaoTable(sinhVien);
 		} else {
 			this.danhSachSinhVien.update(sinhVien);
 			int length_Row = table.getRowCount();
@@ -522,38 +526,43 @@ public class QLSV_View extends JFrame {
 	}
 
 	public void thucHienTim() {
-	    int queQuan = this.comboBox_QueQuan.getSelectedIndex();
-	    String maThiSinhTimKiem = this.textField_MaSinhVien.getText();
-	    DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
-	    Set<Integer> danhSachCanXoa = new HashSet<Integer>();
-	    int rowCount = table.getRowCount();
+		thucHienHuyTim();
+		int queQuan = this.comboBox_QueQuan.getSelectedIndex();
+		String maThiSinhTimKiem = this.textField_MaSinhVien.getText();
+		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+		Set<Integer> danhSachCanXoa = new HashSet<Integer>();
+		int rowCount = table.getRowCount();
 
-	    // Xác định các dòng cần xóa và thêm chúng vào danhSachCanXoa
-	    for (int i = 0; i < rowCount; i++) {
-	        String tenTinh = table.getValueAt(i, 2) + "";
-	        String id = table.getValueAt(i, 0) + "";
+		// Xác định các dòng cần xóa và thêm chúng vào danhSachCanXoa
+		for (int i = 0; i < rowCount; i++) {
+			String tenTinh = table.getValueAt(i, 2) + "";
+			String id = table.getValueAt(i, 0) + "";
 
-	        if (queQuan >= 0 && !tenTinh.equals(Tinh.getTinhById(queQuan).getTenTinh())) {
-	            danhSachCanXoa.add(i);
-	        }
+			if (queQuan >= 0 && !tenTinh.equals(Tinh.getTinhById(queQuan).getTenTinh())) {
+				danhSachCanXoa.add(i);
+			}
 
-	        if (maThiSinhTimKiem.length() > 0 && !id.equals(maThiSinhTimKiem)) {
-	            danhSachCanXoa.add(i);
-	        }
-	    }
-	    
-	    // Loại bỏ các dòng cần xóa từ bảng (theo thứ tự giảm dần của chỉ mục)
-	    List<Integer> indexList = new ArrayList<>(danhSachCanXoa);
-	    Collections.sort(indexList, Collections.reverseOrder());
-	    for (Integer index : indexList) {
-	    	System.out.println(index);
-	    }
+			if (maThiSinhTimKiem.length() > 0 && !id.equals(maThiSinhTimKiem)) {
+				danhSachCanXoa.add(i);
+			}
+		}
+
+		// Loại bỏ các dòng cần xóa từ bảng (theo thứ tự giảm dần của chỉ mục)
+		List<Integer> indexList = new ArrayList<>(danhSachCanXoa);
+		Collections.sort(indexList, Collections.reverseOrder());
+		for (Integer index : indexList) {
+			System.out.println(index);
+			defaultTableModel.removeRow(index);
+		}
 	}
 
-
-
 	public void thucHienHuyTim() {
+		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
+		int count = table.getRowCount();
+		defaultTableModel.getDataVector().removeAllElements();
 		// TODO Auto-generated method stub
-
+		for (SinhVien x : this.danhSachSinhVien.getDanhSach()) {
+			this.themSinhVienVaoTable(x);
+		}
 	}
 }
