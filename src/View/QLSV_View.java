@@ -13,6 +13,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -31,6 +40,7 @@ import javax.swing.JTextField;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -104,18 +114,21 @@ public class QLSV_View extends JFrame {
 		JMenuItem Menu_Item_Open = new JMenuItem("Open");
 		Menu_Item_Open.setFont(new Font("Segoe UI", Font.BOLD, 13));
 		Menu_Item_Open.addActionListener(qlsv_Control);
+		Menu_Item_Open.addActionListener(qlsv_Control);
 		Menu_File.add(Menu_Item_Open);
 
-		JMenuItem Menu_Item_Close = new JMenuItem("Close");
-		Menu_Item_Close.setFont(new Font("Segoe UI", Font.BOLD, 13));
-		Menu_Item_Close.addActionListener(qlsv_Control);
-		Menu_File.add(Menu_Item_Close);
+		JMenuItem Menu_Item_Save = new JMenuItem("Save");
+		Menu_Item_Save.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		Menu_Item_Save.addActionListener(qlsv_Control);
+		Menu_Item_Save.addActionListener(qlsv_Control);
+		Menu_File.add(Menu_Item_Save);
 
 		JSeparator separator = new JSeparator();
 		Menu_File.add(separator);
 
 		JMenuItem Menu_Item_Exit = new JMenuItem("Exit");
 		Menu_Item_Exit.setFont(new Font("Segoe UI", Font.BOLD, 13));
+		Menu_Item_Exit.addActionListener(qlsv_Control);
 		Menu_Item_Exit.addActionListener(qlsv_Control);
 		Menu_File.add(Menu_Item_Exit);
 
@@ -526,7 +539,7 @@ public class QLSV_View extends JFrame {
 	}
 
 	public void thucHienTim() {
-		thucHienHuyTim();
+		thucHienTaiLenDuLieuTuDanhSach();
 		int queQuan = this.comboBox_QueQuan.getSelectedIndex();
 		String maThiSinhTimKiem = this.textField_MaSinhVien.getText();
 		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
@@ -556,7 +569,7 @@ public class QLSV_View extends JFrame {
 		}
 	}
 
-	public void thucHienHuyTim() {
+	public void thucHienTaiLenDuLieuTuDanhSach() {
 		DefaultTableModel defaultTableModel = (DefaultTableModel) table.getModel();
 		int count = table.getRowCount();
 		defaultTableModel.getDataVector().removeAllElements();
@@ -564,5 +577,85 @@ public class QLSV_View extends JFrame {
 		for (SinhVien x : this.danhSachSinhVien.getDanhSach()) {
 			this.themSinhVienVaoTable(x);
 		}
+	}
+
+	public void hienThiAbout() {
+		// TODO Auto-generated method stub
+		JOptionPane.showMessageDialog(this, "Đây là phần mềm quản lý sinh viên");
+	}
+
+	public void thoatKhoiChuongTrinh() {
+		// TODO Auto-generated method stub
+		int luaChon = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thoát khỏi chương trình hay không",
+				"Confirm", JOptionPane.YES_NO_OPTION);
+		if (luaChon == 0) {
+			System.exit(0);
+		}
+	}
+
+	public void save(String path) {
+		try {
+			this.danhSachSinhVien.setFileName(path);
+			FileOutputStream fosStream = new FileOutputStream(path);
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fosStream);
+			for (SinhVien x : this.danhSachSinhVien.getDanhSach()) {
+				objectOutputStream.writeObject(x);
+			}
+			objectOutputStream.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void thucHienLuuThongTin() {
+		if (this.danhSachSinhVien.getFileName().length() > 0) {
+			save(this.danhSachSinhVien.getFileName());
+		} else {
+			JFileChooser jFileChooser = new JFileChooser();
+			int returnVal = jFileChooser.showSaveDialog(this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = jFileChooser.getSelectedFile();
+				save(file.getAbsolutePath());
+			}
+		}
+	}
+
+	public void ThucHienMoFileThongTin() {
+		JFileChooser jFileChooser = new JFileChooser();
+		int returnVal = jFileChooser.showOpenDialog(this);
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			File file = jFileChooser.getSelectedFile();
+			openFile(file.getAbsolutePath());
+			thucHienTaiLenDuLieuTuDanhSach();
+		}
+	}
+
+	private void openFile(String absolutePath) {
+		try {
+			this.danhSachSinhVien.setFileName(absolutePath);
+			FileInputStream fisStream = new FileInputStream(absolutePath);
+			ObjectInputStream objectInputStream = new ObjectInputStream(fisStream);
+			ArrayList<SinhVien> arrayList = new ArrayList<SinhVien>();
+			SinhVien sVien = null;
+			while ((sVien = (SinhVien) objectInputStream.readObject()) != null) {
+				arrayList.add(sVien);
+			}
+			this.danhSachSinhVien.setDanhSach(arrayList);
+			objectInputStream.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 	}
 }

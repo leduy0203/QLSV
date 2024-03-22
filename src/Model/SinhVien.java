@@ -1,9 +1,10 @@
 package Model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SinhVien {
+public class SinhVien implements Serializable{
 	private int maThiSinh;
 	private String tenThiSinh;
 	private Tinh queQuan;

@@ -49,8 +49,16 @@ public class QLSV_Control implements Action {
 			System.out.println("kkkkkkkkkk");
 			this.qlsv_View.thucHienTim();
 		} else if (src.equals("Huỷ tìm")) {
-			this.qlsv_View.thucHienHuyTim();
-		}
+			this.qlsv_View.thucHienTaiLenDuLieuTuDanhSach();
+		} else if (src.equals("About me")) {
+			this.qlsv_View.hienThiAbout();
+		} else if (src.equals("Exit")) {
+			this.qlsv_View.thoatKhoiChuongTrinh();
+		} else if (src.equals("Save")) {
+			this.qlsv_View.thucHienLuuThongTin();
+		} else if (src.equals("Open")) {
+			this.qlsv_View.ThucHienMoFileThongTin();
+		}						
 
 	}
 

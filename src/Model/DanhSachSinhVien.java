@@ -1,14 +1,27 @@
 package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DanhSachSinhVien {
+public class DanhSachSinhVien implements Serializable{
 	private ArrayList<SinhVien> DanhSach;
 	private String luaChon;
+	private String fileName;
+
+	
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
 
 	public DanhSachSinhVien() {
 		super();
 		DanhSach = new ArrayList<SinhVien>();
+		fileName = "";
 	}
 
 	public String getLuaChon() {
