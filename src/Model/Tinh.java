@@ -3,7 +3,8 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Tinh implements Serializable{
+public class Tinh implements Serializable {
+
 	private int maTinh;
 	private String tenTinh;
 
@@ -39,9 +40,9 @@ public class Tinh implements Serializable{
 	}
 
 	public static ArrayList<Tinh> ds() {
-		String[] arr = {"An Giang" ,"Bến Tre", "Bình Dương", "Bình Định", "Bình Phước", "Bình Thuận", "Cà Mau", "Cao Bằng",
-				"Cần Thơ", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp", "Gia Lai",
-				"Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình",
+		String[] arr = { "An Giang", "Bến Tre", "Bình Dương", "Bình Định", "Bình Phước", "Bình Thuận", "Cà Mau",
+				"Cao Bằng", "Cần Thơ", "Đà Nẵng", "Đắk Lắk", "Đắk Nông", "Điện Biên", "Đồng Nai", "Đồng Tháp",
+				"Gia Lai", "Hà Giang", "Hà Nam", "Hà Nội", "Hà Tĩnh", "Hải Dương", "Hải Phòng", "Hậu Giang", "Hòa Bình",
 				"Thành phố Hồ Chí Minh", "Hưng Yên", "Khánh Hòa", "Kiên Giang", "Kon Tum", "Lai Châu", "Lạng Sơn",
 				"Lào Cai", "Lâm Đồng", "Long An", "Nam Định", "Nghệ An", "Ninh Bình", "Ninh Thuận", "Phú Thọ",
 				"Phú Yên", "Quảng Bình", "Quảng Nam", "Quảng Ngãi", "Quảng Ninh", "Quảng Trị", "Sóc Trăng", "Sơn La",
@@ -50,20 +51,22 @@ public class Tinh implements Serializable{
 		int x = 0;
 		ArrayList<Tinh> tinhs = new ArrayList<Tinh>();
 		for (String string : arr) {
-			Tinh tinh = new Tinh(x , string);
+			Tinh tinh = new Tinh(x, string);
 			tinhs.add(tinh);
 			x++;
 		}
 		return tinhs;
 	}
+
 	public static Tinh getTinhById(int index) {
 		return Tinh.ds().get(index);
 	}
+
 	public static Tinh getTinhByTen(String tenString) {
 		ArrayList<Tinh> arrayList = Tinh.ds();
 		Tinh tinhs = null;
 		for (Tinh tinh : arrayList) {
-			if(tinh.getTenTinh().equalsIgnoreCase(tenString)) {
+			if (tinh.getTenTinh().equalsIgnoreCase(tenString)) {
 				tinhs = tinh;
 			}
 		}

@@ -4,7 +4,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class SinhVien implements Serializable{
+public class SinhVien implements Serializable {
+	
 	private int maThiSinh;
 	private String tenThiSinh;
 	private Tinh queQuan;
@@ -24,11 +25,10 @@ public class SinhVien implements Serializable{
 		this.diemMon2 = diemMon2;
 		this.diemMon3 = diemMon3;
 	}
-	
+
 	public SinhVien() {
 		super();
 	}
-
 
 	public int getMaThiSinh() {
 		return maThiSinh;
@@ -96,8 +96,8 @@ public class SinhVien implements Serializable{
 
 	public String format() {
 		SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-	    String formattedNgaySinh = outputFormat.format(this.getNgaySinh());
-	    return formattedNgaySinh;
+		String formattedNgaySinh = outputFormat.format(this.getNgaySinh());
+		return formattedNgaySinh;
 	}
 
 	@Override
@@ -106,8 +106,5 @@ public class SinhVien implements Serializable{
 				+ ", ngaySinh=" + ngaySinh + ", gioiTinh=" + gioiTinh + ", diemMon1=" + diemMon1 + ", diemMon2="
 				+ diemMon2 + ", diemMon3=" + diemMon3 + "]";
 	}
-	
 
-
-	
 }

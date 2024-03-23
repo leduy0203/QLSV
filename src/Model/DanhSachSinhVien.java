@@ -3,12 +3,10 @@ package Model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class DanhSachSinhVien implements Serializable{
+public class DanhSachSinhVien implements Serializable {
 	private ArrayList<SinhVien> DanhSach;
 	private String luaChon;
 	private String fileName;
-
-	
 
 	public String getFileName() {
 		return fileName;

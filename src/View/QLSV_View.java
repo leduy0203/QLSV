@@ -13,6 +13,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import java.awt.Font;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -629,33 +630,39 @@ public class QLSV_View extends JFrame {
 		int returnVal = jFileChooser.showOpenDialog(this);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File file = jFileChooser.getSelectedFile();
-			openFile(file.getAbsolutePath());
+			openFile(file);
 			thucHienTaiLenDuLieuTuDanhSach();
 		}
 	}
 
-	private void openFile(String absolutePath) {
+	private void openFile(File file) {
+		ArrayList<SinhVien> arrayList = new ArrayList<SinhVien>();
 		try {
-			this.danhSachSinhVien.setFileName(absolutePath);
-			FileInputStream fisStream = new FileInputStream(absolutePath);
-			ObjectInputStream objectInputStream = new ObjectInputStream(fisStream);
-			ArrayList<SinhVien> arrayList = new ArrayList<SinhVien>();
-			SinhVien sVien = null;
-			while ((sVien = (SinhVien) objectInputStream.readObject()) != null) {
-				arrayList.add(sVien);
+			this.danhSachSinhVien.setFileName(file.getAbsolutePath());
+			try (FileInputStream fisStream = new FileInputStream(file);
+					ObjectInputStream objectInputStream = new ObjectInputStream(fisStream)) {
+
+				SinhVien sVien = null;
+				while (true) {
+					try {
+						sVien = (SinhVien) objectInputStream.readObject();
+						arrayList.add(sVien);
+					} catch (EOFException e) {
+						break; // Kết thúc khi gặp cuối file
+					}
+				}
 			}
-			this.danhSachSinhVien.setDanhSach(arrayList);
-			objectInputStream.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Xử lý FileNotFoundException
+			System.out.println(e.getMessage());
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
+			// Xử lý ClassNotFoundException
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			// Xử lý IOException
 			e.printStackTrace();
 		}
-
+		this.danhSachSinhVien.setDanhSach(arrayList);
 	}
+
 }
